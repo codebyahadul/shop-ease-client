@@ -1,8 +1,9 @@
-import { useState } from "react";
 import Card from "../components/shared/Card";
 import FilterSidebar from "../components/FilterSidebar";
+import useGetProducts from "../hooks/useGetProducts";
 
 const Home = () => {
+    const [products] = useGetProducts()
     return (
         <div className="px-2 my-5 md:my-8">
             <div className="text-center my-3 pb-5 flex">
@@ -25,12 +26,9 @@ const Home = () => {
                         </select>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center items-center w-full">
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
+                        {
+                            products.slice(0, 6).map((product) => <Card key={product?._id} product={product}  />)
+                        }
                     </div>
                 </div>
             </div>
