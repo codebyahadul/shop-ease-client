@@ -70,7 +70,7 @@ const Navbar = () => {
             })
     }
     return (
-        <nav className="border-b shadow-sm">
+        <nav className="border-b shadow-sm px-2">
             <div className="flex items-center justify-between py-2 my-3 max-w-7xl mx-auto">
                 <div className="scale-100 cursor-pointer rounded-2xl px-3 py-2 text-xl md:text-3xl font-bold transition-all duration-200 hover:scale-105 flex items-center gap-3">
                     {/* menu bar */}
