@@ -10,34 +10,34 @@ const Footer = () => {
                         <p className="text-xs md:text-sm font-semibold text-opacity-80">
                             123 Dhanmondi , Dhanmondi City, Dhaka
                             Phone: +123-456-7890
-                            Email: info@servenest.com</p>
+                            Email: info@shopeasy.com</p>
                         <div className="flex items-center justify-center mt-3 gap-3">
                             <FaFacebook size={25} className="hover:text-primary cursor-pointer" />
-                            <FaInstagram size={25} className="hover:text-rose-400 cursor-pointer" />
+                            <FaInstagram size={25} className="hover:text-primary cursor-pointer" />
                             <FaLinkedinIn size={25} className="hover:text-primary cursor-pointer" />
                         </div>
                     </div>
                 </div>
                 <div>
                     <h6 className="mb-5 uppercase text-lg font-bold text-opacity-80">Services</h6>
-                    <a className="link link-hover">Branding</a>
-                    <a className="link link-hover">Design</a>
-                    <a className="link link-hover">Marketing</a>
-                    <a className="link link-hover">Advertisement</a>
+                    <a className="cursor-pointer hover:underline">Branding</a>
+                    <a className="cursor-pointer hover:underline">Design</a>
+                    <a className="cursor-pointer hover:underline">Marketing</a>
+                    <a className="cursor-pointer hover:underline">Advertisement</a>
                 </div>
                 <div>
                     <h6 className="mb-5 uppercase text-lg font-bold text-opacity-80">Company</h6>
-                    <a className="link link-hover">About us</a>
-                    <a className="link link-hover">Contact</a>
-                    <a className="link link-hover">Jobs</a>
-                    <a className="link link-hover">Press kit</a>
+                    <a className="cursor-pointer hover:underline">About us</a>
+                    <a className="cursor-pointer hover:underline">Contact</a>
+                    <a className="cursor-pointer hover:underline">Jobs</a>
+                    <a className="cursor-pointer hover:underline">Press kit</a>
                 </div>
                 <div>
                     <h6 className="mb-5 uppercase text-lg font-bold text-opacity-80">Legal</h6>
-                    <a className="link link-hover">Terms of use</a>
-                    <a className="link link-hover">Privacy policy</a>
-                    <a className="link link-hover">Cookie policy</a>
-                    <a className="link link-hover">Cookie policy</a>
+                    <a className="cursor-pointer hover:underline">Terms of use</a>
+                    <a className="cursor-pointer hover:underline">Privacy policy</a>
+                    <a className="cursor-pointer hover:underline">Cookie policy</a>
+                    <a className="cursor-pointer hover:underline">Cookie policy</a>
                 </div>
             </div>
             <div className=" text-center py-2 bg-gray-400">
