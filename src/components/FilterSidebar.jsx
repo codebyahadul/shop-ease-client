@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
-const FilterSidebar = () => {
+const FilterSidebar = ({toggle}) => {
     const [showBrandName, setShowBrandName] = useState(false)
     const [showCategoryName, setShowCategoryName] = useState(false)
     return (
-        <div className="min-w-48 hidden md:block space-y-2 text-center overflow-y-auto">
+        <div className={`min-w-48 ${toggle? 'block': 'hidden'} md:block space-y-2 text-center overflow-y-auto z-40`}>
             <div className=" w-full rounded-sm pt-2">
                 {/* Brand Name */}
                 <div className="flex bg-gray-100 items-center justify-between border-b pb-2 p-1">
@@ -64,7 +65,7 @@ const FilterSidebar = () => {
                 </div>
                 {/* Category Name */}
                 <div className="flex bg-gray-100 items-center justify-between border-b pb-2 px-1 mt-4 p-1">
-                    <h3 className="text-lg font-medium">Brand Name: </h3>
+                    <h3 className="text-lg font-medium">Category Name: </h3>
                     <div onClick={() => setShowCategoryName(!showCategoryName)}>
                         {
                             showBrandName ? <IoIosArrowUp size={20} className="cursor-pointer" /> : <IoIosArrowDown size={20} className="cursor-pointer" />
@@ -74,32 +75,20 @@ const FilterSidebar = () => {
                 <div className={`bg-gray-100 min-h-20 ${showCategoryName ? 'block' : 'hidden'}`}>
                     <div className="text-start pl-3 space-y-2 flex flex-col gap-2">
                         <div className="flex gap-2 items-center mt-2">
-                            <input type="checkbox" name="brandName" id="Havit" />
-                            <label htmlFor="Havit">Havit</label>
+                            <input type="checkbox" name="brandName" id="Electronics" />
+                            <label htmlFor="Electronics">Electronics</label>
                         </div>
                         <div className="flex gap-2 items-center mt-2">
-                            <input type="checkbox" name="brandName" id="HP" />
-                            <label htmlFor="HP">HP</label>
+                            <input type="checkbox" name="brandName" id="Accessories" />
+                            <label htmlFor="Accessories">Accessories</label>
                         </div>
                         <div className="flex gap-2 items-center mt-2">
-                            <input type="checkbox" name="brandName" id="Dell" />
-                            <label htmlFor="Dell">Dell</label>
+                            <input type="checkbox" name="brandName" id="Home & Office" />
+                            <label htmlFor="Home & Office">Home & Office</label>
                         </div>
                         <div className="flex gap-2 items-center mt-2">
-                            <input type="checkbox" name="brandName" id="Corsair" />
-                            <label htmlFor="Corsair">Corsair</label>
-                        </div>
-                        <div className="flex gap-2 items-center mt-2">
-                            <input type="checkbox" name="brandName" id="Montac" />
-                            <label htmlFor="Montac">Montac</label>
-                        </div>
-                        <div className="flex gap-2 items-center mt-2">
-                            <input type="checkbox" name="brandName" id="Bengal" />
-                            <label htmlFor="Bengal">Bengal</label>
-                        </div>
-                        <div className="flex gap-2 items-center mt-2">
-                            <input type="checkbox" name="brandName" id="Walton" />
-                            <label htmlFor="Walton">Walton</label>
+                            <input type="checkbox" name="brandName" id="Wearables" />
+                            <label htmlFor="Wearables">Wearables</label>
                         </div>
                     </div>
                 </div>

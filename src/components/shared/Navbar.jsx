@@ -32,14 +32,6 @@ const Navbar = () => {
                     ? "group flex cursor-pointer flex-col text-primary text-sm md:text-lg font-semibold"
                     : "group flex cursor-pointer flex-col text-secondary text-sm md:text-lg"
             }>
-                Home {span()}</NavLink>
-        </li>
-        <li>
-            <NavLink to='/services' className={({ isActive }) =>
-                isActive
-                    ? "group flex cursor-pointer flex-col text-primary text-sm md:text-lg"
-                    : "group flex cursor-pointer flex-col text-secondary text-sm md:text-lg"
-            }>
                 Products {span()}</NavLink>
         </li>
         <li>
