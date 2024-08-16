@@ -33,7 +33,7 @@ const Home = () => {
         queryKey: ['search', name, currentPage, sortField, sortOrder],
         queryFn: async () => {
             if (!name) return [];
-            const { data } = await axios.get(`http://localhost:5000/search?value=${name}&page=${currentPage}&size=${page}`);
+            const { data } = await axios.get(`http://localhost:5000/search?value=${name}&page=${currentPage}&size=${page}&{sortField}&sortOrder=${sortOrder}`);
             return data.searchResult;
         },
         enabled: !!name,
