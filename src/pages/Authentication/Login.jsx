@@ -19,7 +19,7 @@ const Login = () => {
         .then(() => {
             setIsLoading(false)
             toast.success("Login successfully")
-            navigate(location?.state ? location?.state : '/')
+            navigate(location?.state ? location?.state : '/products')
         })
         .catch((error) => {
             toast.error(error?.message);
@@ -30,14 +30,14 @@ const Login = () => {
         signInWithGoogle()
         .then(() => {
             toast.success('Successfully login by google')
-            navigate(location?.state ? location?.state : '/')
+            navigate(location?.state ? location?.state : '/products')
         })
         .catch(err => {
             toast.error(err?.message);
         })
     }
     if(user){
-        return <Navigate to="/"></Navigate>;
+        return <Navigate to="/products"></Navigate>;
       }
     return (
         <div className='flex justify-center items-center px-2 py-2 my-2'>

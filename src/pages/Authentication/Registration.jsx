@@ -22,10 +22,11 @@ const Registration = () => {
             .then(() => {
                 setIsLoading(false)
                 toast.success("Successfully register !!")
-                navigate(location?.state ? location?.state : '/')
+                navigate(location?.state ? location?.state : '/products')
             })
             .catch(err => {
                 toast.error(err?.message);
+                setIsLoading(false)
             })
     }
     // google sing in 
@@ -33,10 +34,11 @@ const Registration = () => {
         signInWithGoogle()
             .then(() => {
                 toast.success('Successfully register')
-                navigate(location?.state ? location?.state : '/')
+                navigate(location?.state ? location?.state : '/products')
             })
             .catch(err => {
                 toast.error(err?.message);
+                setIsLoading(false)
             })
     }
     return (

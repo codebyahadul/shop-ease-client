@@ -40,7 +40,7 @@ const FilterSidebar = ({ toggle, setFilterUrl, filterReload, searchReload }) => 
     };
     return (
         <div className={`min-w-48 ${toggle ? 'block' : 'hidden'} md:block space-y-2 text-center overflow-y-auto z-40`}>
-            <form onSubmit={handleFilter} className="w-full rounded-sm pt-2">
+            <form onSubmit={handleFilter} className="w-full rounded-sm pt-2 text-sm md:text-lg">
                 {/* Brand Name */}
                 <div className="flex bg-gray-100 items-center justify-between border-b pb-2 p-1">
                     <h3 className="text-lg font-medium">Brand Name: </h3>
