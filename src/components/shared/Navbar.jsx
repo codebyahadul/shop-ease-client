@@ -2,12 +2,13 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import toast from "react-hot-toast";
+import Loading from "./Loading";
 
 const Navbar = () => {
     const [dropDownState, setDropDownState] = useState(false);
     const [toggle, setToggle] = useState(false);
     const dropDownMenuRef = useRef();
-    const { user, logOut } = useContext(AuthContext)
+    const { user, logOut, loading} = useContext(AuthContext)
     const navigate = useNavigate()
     useEffect(() => {
         const closeDropDown = (e) => {
@@ -60,6 +61,9 @@ const Navbar = () => {
             .catch(err => {
                 toast.error(err?.message)
             })
+    }
+    if(loading){
+        return <Loading />
     }
     return (
         <nav className="border-b shadow-sm px-2">

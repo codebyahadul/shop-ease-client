@@ -5,6 +5,7 @@ import { useLoaderData } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Loading from "../components/shared/Loading";
 
 const Home = () => {
     const [toggle, setToggle] = useState(false)
@@ -15,6 +16,7 @@ const Home = () => {
     const [name, setName] = useState(null);
     const [sortField, setSortField] = useState('price');
     const [sortOrder, setSortOrder] = useState('asc');
+    const [filterUrl, setFilterUrl] = useState('')
     const page = 10
     const numberOfPage = Math.ceil(count / page)
     const pageNumber = [...Array(numberOfPage).keys()]
@@ -29,16 +31,24 @@ const Home = () => {
     });
 
     // search products
-    const { data: searchResults = [] } = useQuery({
+    const { data: searchResults = [], isLoading: searchLoading, refetch: searchReload } = useQuery({
         queryKey: ['search', name, currentPage, sortField, sortOrder],
         queryFn: async () => {
             if (!name) return [];
-            const { data } = await axios.get(`http://localhost:5000/search?value=${name}&page=${currentPage}&size=${page}&{sortField}&sortOrder=${sortOrder}`);
+            const { data } = await axios.get(`http://localhost:5000/search?value=${name}&page=${currentPage}&size=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
             return data.searchResult;
         },
         enabled: !!name,
     });
-
+    // filter products
+    const { data: filterProducts = [], isLoading: filterLoading, refetch: filterReload } = useQuery({
+        queryKey: ['search', filterUrl],
+        queryFn: async () => {
+            if (!filterUrl.toString()) return [];
+            const { data } = await axios.get(`http://localhost:5000/products/filter?${filterUrl.toString()}`);
+            return data;
+        }
+    });
     const updateCurrentPage = (num) => {
         if ((num > (page - 1)) || (0 > num)) { return setCurrentPage(0) }
         setCurrentPage(num)
@@ -54,19 +64,21 @@ const Home = () => {
         setName(name);
         setCurrentPage(0);
         refetch();
+        filterReload()
     };
 
-    if (isLoading) {
-        return <div>loading</div>
+    if (isLoading || searchLoading || filterLoading) {
+        return <Loading />
     }
     return (
         <div className="px-2 my-5 md:my-8">
             <form onSubmit={handleSearch} className="text-center my-3 pb-5 flex">
                 <input type="text" name="name" className="border-y border-l focus:outline-none px-2 md:px-5 py-1 md:py-2 bg-gray-200 font-semibold text-black rounded-s-md text-sm md:text-lg" placeholder="Search your product" />
-                <button type="submit" className="border-y rounded-r-md py-1 md:py-2 px-1 md:px-4 font-semibold text-black bg-gray-400/40 hover:bg-secondary/80 text-sm md:text-lg">Search</button>
+                <button type="submit" className="border-y rounded-r-md py-1 md:py-2 px-1 md:px-4 font-semibold text-black bg-gray-400/40 hover:bg-primary/80 text-sm md:text-lg">Search</button>
             </form>
             <div className=" flex flex-col md:flex-row gap-5 md:gap-10 p-5 border rounded-lg shadow-md">
-                <FilterSidebar toggle={toggle} />
+                {/* filter sidebar */}
+                <FilterSidebar toggle={toggle} setFilterUrl={setFilterUrl} filterReload={filterReload} searchReload={searchReload}/>
                 <div className="block md:hidden">
                     <h1 onClick={() => setToggle(!toggle)}>Filter</h1>
                 </div>
@@ -84,7 +96,7 @@ const Home = () => {
                                     setSortField('price');
                                     setSortOrder('desc');
                                 }
-                                // setCurrentPage(0);
+                                setCurrentPage(0);
                                 refetch();
                             }}
                         >
@@ -103,7 +115,7 @@ const Home = () => {
                                     setSortField('createdAt');
                                     setSortOrder('asc');
                                 }
-                                // setCurrentPage(0);
+                                setCurrentPage(0);
                                 refetch();
                             }}
                         >
@@ -113,24 +125,31 @@ const Home = () => {
                         </select>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center items-center w-full">
-                        {!searchResults.length && products.map((product) => <Card key={product._id} product={product} />)}
-                        {searchResults.map((product) => <Card key={product._id} product={product} />)}
+                        {searchResults.length > 0 && searchResults.map((product) => (
+                            <Card key={product._id} product={product} />
+                        ))}
+                        {filterProducts.length > 0 && filterProducts.map((product) => (
+                            <Card key={product._id} product={product} />
+                        ))}
+                        {(!searchResults.length && !filterProducts.length) && products.map((product) => (
+                            <Card key={product._id} product={product} />
+                        ))}
                     </div>
                 </div>
             </div>
             <div className="flex justify-center items-center px-5">
                 <div className='flex justify-center items-center gap-5 bg-gray-200 text-black p-2 shadow-lg rounded-md mx-auto select-none my-5'>
                     {/* left arrow */}
-                    <div onClick={() => { updateCurrentPage(currentPage - 1) }} className='text-[12px] cursor-pointer font-semibold px-1 py-1'>
+                    <div onClick={() => { updateCurrentPage(currentPage - 1) }} className='text-xs cursor-pointer font-semibold px-1 py-1'>
                         PREV
                     </div>
                     <div className='flex justify-center items-center gap-2 '>
-                        {pageNumber.map((item, ind) => <div key={item} onClick={() => { setCurrentPage(item) }} className={`cursor-pointer hover:scale-110  border-b-2  text-sm scale-100 transition-all duration-200 px-3 ${currentPage === item ? 'border-sky-300' : 'border-white'}   font-semibold text-gray-700   py-[6px] `} >
+                        {pageNumber.map((item) => <div key={item} onClick={() => { setCurrentPage(item) }} className={`cursor-pointer hover:scale-110 text-sm scale-100 transition-all duration-200 px-3 hover:bg-primary ${currentPage === item ? ' bg-primary' : ''}   font-semibold text-gray-700   py-[6px] `} >
                             {item + 1}
                         </div>)}
                     </div>
                     {/* right arrow */}
-                    <div onClick={() => { updateCurrentPage(currentPage + 1) }} className='text-[12px] cursor-pointer font-semibold px-1 py-1'>
+                    <div onClick={() => { updateCurrentPage(currentPage + 1) }} className='text-xs cursor-pointer font-semibold px-1 py-1'>
                         NEXT
                     </div>
                 </div>
