@@ -10,13 +10,14 @@ const Home = () => {
     const [toggle, setToggle] = useState(false)
 
     // pagination related
-    const {count} = useLoaderData();
+    const { count } = useLoaderData();
     const [currentPage, setCurrentPage] = useState(0)
+    const [name, setName] = useState(null);
     const [sortField, setSortField] = useState('price');
     const [sortOrder, setSortOrder] = useState('asc');
     const page = 10
     const numberOfPage = Math.ceil(count / page)
-    const  pageNumber= [...Array(numberOfPage).keys()]
+    const pageNumber = [...Array(numberOfPage).keys()]
 
     // pagination & sorting
     const { data: products = [], isLoading, refetch } = useQuery({
@@ -26,28 +27,53 @@ const Home = () => {
             return data;
         }
     });
+
+    // search products
+    const { data: searchResults = [] } = useQuery({
+        queryKey: ['search', name, currentPage, sortField, sortOrder],
+        queryFn: async () => {
+            if (!name) return [];
+            const { data } = await axios.get(`http://localhost:5000/search?value=${name}`);
+            return data.searchResult;
+        },
+        enabled: !!name,
+    });
+
     const updateCurrentPage = (num) => {
         if ((num > (page - 1)) || (0 > num)) { return setCurrentPage(0) }
         setCurrentPage(num)
     }
-    if(isLoading){
+
+    // search 
+    const handleSearch = e => {
+        e.preventDefault();
+        const name = e.target.name.value;
+        if (!name) {
+            return toast.error("Please write the product name");
+        }
+        setName(name);
+        setCurrentPage(0);
+        refetch();
+    };
+
+    if (isLoading) {
         return <div>loading</div>
     }
     return (
         <div className="px-2 my-5 md:my-8">
-            <form  className="text-center my-3 pb-5 flex">
+            <form onSubmit={handleSearch} className="text-center my-3 pb-5 flex">
                 <input type="text" name="name" className="border-y border-l focus:outline-none px-2 md:px-5 py-1 md:py-2 bg-gray-200 font-semibold text-black rounded-s-md text-sm md:text-lg" placeholder="Search your product" />
                 <button type="submit" className="border-y rounded-r-md py-1 md:py-2 px-1 md:px-4 font-semibold text-black bg-gray-400/40 hover:bg-secondary/80 text-sm md:text-lg">Search</button>
             </form>
             <div className=" flex flex-col md:flex-row gap-5 md:gap-10 p-5 border rounded-lg shadow-md">
-                <FilterSidebar toggle={toggle}/>
+                <FilterSidebar toggle={toggle} />
                 <div className="block md:hidden">
                     <h1 onClick={() => setToggle(!toggle)}>Filter</h1>
                 </div>
                 <div>
-                <div className="flex flex-col md:flex-row justify-end gap-2 items-center mb-4 text-xs md:text-lg font-medium border-b pb-4">
+                    <div className="flex flex-col md:flex-row justify-end gap-2 items-center mb-4 text-xs md:text-lg font-medium border-b pb-4">
                         <span>Sort By: </span>
-                        <select 
+                        <select
                             className="border rounded-md font-normal"
                             onChange={(e) => {
                                 const value = e.target.value;
@@ -66,7 +92,7 @@ const Home = () => {
                             <option value="low">Price Low to High</option>
                             <option value="high">Price High to Low</option>
                         </select>
-                        <select 
+                        <select
                             className="border rounded-md font-normal"
                             onChange={(e) => {
                                 const value = e.target.value;
@@ -87,9 +113,8 @@ const Home = () => {
                         </select>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center items-center w-full">
-                        {
-                           products.map((product) => <Card key={product?._id} product={product} />)
-                        }
+                        {!searchResults.length && products.map((product) => <Card key={product._id} product={product} />)}
+                        {searchResults.map((product) => <Card key={product._id} product={product} />)}
                     </div>
                 </div>
             </div>
