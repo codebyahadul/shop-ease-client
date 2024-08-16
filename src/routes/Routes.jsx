@@ -20,7 +20,7 @@ const router = createBrowserRouter([
             {
                 path: '/products',
                 element: <PrivateRoute><Product /></PrivateRoute>,
-                loader: () => fetch('http://localhost:5000/productCount')
+                loader: () => fetch(`${import.meta.env.VITE_URL}/productCount`)
             },
             {
                 path: '/login',

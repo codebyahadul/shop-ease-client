@@ -24,7 +24,7 @@ const Product = () => {
     const { data: products = [], isLoading, refetch } = useQuery({
         queryKey: ['products', currentPage, sortField, sortOrder],
         queryFn: async () => {
-            const { data } = await axios.get(`http://localhost:5000/products?page=${currentPage}&size=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
+            const { data } = await axios.get(`${import.meta.env.VITE_URL}/products?page=${currentPage}&size=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
             return data;
         }
     });
@@ -34,7 +34,7 @@ const Product = () => {
         queryKey: ['search', name, currentPage, sortField, sortOrder],
         queryFn: async () => {
             if (!name) return [];
-            const { data } = await axios.get(`http://localhost:5000/search?value=${name}&page=${currentPage}&size=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
+            const { data } = await axios.get(`${import.meta.env.VITE_URL}/search?value=${name}&page=${currentPage}&size=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
             return data.searchResult;
         },
         enabled: !!name,
@@ -44,7 +44,7 @@ const Product = () => {
         queryKey: ['search', filterUrl],
         queryFn: async () => {
             if (!filterUrl.toString()) return [];
-            const { data } = await axios.get(`http://localhost:5000/products/filter?${filterUrl.toString()}&page=${currentPage}&size=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
+            const { data } = await axios.get(`${import.meta.env.VITE_URL}/products/filter?${filterUrl.toString()}&page=${currentPage}&size=${page}&sortField=${sortField}&sortOrder=${sortOrder}`);
             return data;
         }
     });
