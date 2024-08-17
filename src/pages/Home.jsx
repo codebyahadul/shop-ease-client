@@ -11,7 +11,7 @@ const Home = () => {
           <div className="flex flex-col items-center space-y-4 text-center text-black">
             {/* Text content */}
             <div className="space-y-2">
-              <h2 className="text-primary text-xl md:text-6xl font-bold my-5">Shop<span className="text-secondary">Ease</span></h2>
+              <h2 className="text-xl md:text-6xl font-bold my-5">Welcome to <span className='text-primary '>Shop</span><span className="text-secondary">Ease</span></h2>
               <p className="mx-auto max-w-[700px] text-sm my-2">
                 ShopEase offers a streamlined shopping experience with intuitive navigation and advanced filtering options. Find products quickly with our user-friendly interface and robust search functionality.
               </p>

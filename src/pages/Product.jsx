@@ -138,7 +138,7 @@ const Product = () => {
                             <option value="oldest">Oldest First</option>
                         </select>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center items-center w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 justify-center items-center">
                         {/* show search result  */}
                         {(searchResults.length > 0 && filterProducts.length === 0) && searchResults.map((product) => (
                             <Card key={product._id} product={product} />
@@ -156,19 +156,19 @@ const Product = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center items-center px-5">
-                <div className='flex justify-center items-center gap-5 bg-gray-200 text-black p-2 shadow-lg rounded-md mx-auto select-none my-5'>
+            <div className="flex justify-center items-center px-1 md:px-5 w-full">
+                <div className='flex justify-center items-center gap-2 md:gap-5 bg-gray-200 text-black p-2 shadow-lg rounded-md mx-auto select-none my-5'>
                     {/* left arrow */}
-                    <div onClick={() => { updateCurrentPage(currentPage - 1) }} className='text-xs cursor-pointer font-semibold px-1 py-1'>
+                    <div onClick={() => { updateCurrentPage(currentPage - 1) }} className='text-xs cursor-pointer font-semibold px-1 py-1 w-fit'>
                         PREV
                     </div>
                     <div className='flex justify-center items-center gap-2 '>
-                        {pageNumber.map((item) => <div key={item} onClick={() => { setCurrentPage(item) }} className={`cursor-pointer hover:scale-110 text-sm scale-100 transition-all duration-200 px-3 hover:bg-primary ${currentPage === item ? ' bg-primary' : ''}   font-semibold text-gray-700   py-[6px] `} >
+                        {pageNumber.map((item) => <div key={item} onClick={() => { setCurrentPage(item) }} className={`cursor-pointer hover:scale-110 text-sm scale-100 transition-all duration-200 px-1 md:px-2 lg:px-3 hover:bg-primary ${currentPage === item ? ' bg-primary' : ''}   font-semibold text-gray-700   py-[6px] `} >
                             {item + 1}
                         </div>)}
                     </div>
                     {/* right arrow */}
-                    <div onClick={() => { updateCurrentPage(currentPage + 1) }} className='text-xs cursor-pointer font-semibold px-1 py-1'>
+                    <div onClick={() => { updateCurrentPage(currentPage + 1) }} className='text-xs cursor-pointer font-semibold px-1 py-1 w-fit'>
                         NEXT
                     </div>
                 </div>
